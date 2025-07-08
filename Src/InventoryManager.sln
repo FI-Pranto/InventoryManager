@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36221.1 d17.14
+VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManager.WebUI", "InventoryManager.WebUI\InventoryManager.WebUI.csproj", "{9246E3DA-E899-404C-A774-5D3E3ED40B7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManager.Application", "InventoryManager.Application\InventoryManager.Application.csproj", "{1351E988-4631-4878-9171-BC7752675C58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManager.Domain", "InventoryManager.Domain\InventoryManager.Domain.csproj", "{F2DCE999-8F10-4EBF-A723-A4511A3E1E47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManager.Infrastructure", "InventoryManager.Infrastructure\InventoryManager.Infrastructure.csproj", "{21188753-D14E-470F-BB45-B71E0A48C461}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{9246E3DA-E899-404C-A774-5D3E3ED40B7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9246E3DA-E899-404C-A774-5D3E3ED40B7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9246E3DA-E899-404C-A774-5D3E3ED40B7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1351E988-4631-4878-9171-BC7752675C58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1351E988-4631-4878-9171-BC7752675C58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1351E988-4631-4878-9171-BC7752675C58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1351E988-4631-4878-9171-BC7752675C58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2DCE999-8F10-4EBF-A723-A4511A3E1E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2DCE999-8F10-4EBF-A723-A4511A3E1E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2DCE999-8F10-4EBF-A723-A4511A3E1E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2DCE999-8F10-4EBF-A723-A4511A3E1E47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21188753-D14E-470F-BB45-B71E0A48C461}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21188753-D14E-470F-BB45-B71E0A48C461}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21188753-D14E-470F-BB45-B71E0A48C461}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21188753-D14E-470F-BB45-B71E0A48C461}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

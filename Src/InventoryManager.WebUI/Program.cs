@@ -1,3 +1,12 @@
+using InventoryManager.Application.Interfaces.IRepositories;
+using InventoryManager.Application.Interfaces.IRepositories.Common;
+using InventoryManager.Application.Interfaces.IServices;
+using InventoryManager.Application.Services;
+using InventoryManager.Infrastructure.Data;
+using InventoryManager.Infrastructure.Repositories;
+using InventoryManager.Infrastructure.Repositories.Common;
+using Microsoft.EntityFrameworkCore;
+
 namespace InventoryManager.WebUI
 {
     public class Program
@@ -8,6 +17,18 @@ namespace InventoryManager.WebUI
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
+                builder.Configuration.GetConnectionString("DC")));
+
+            //repositories
+            builder.Services.AddScoped<IUnitRepository, UnitRepository>();
+
+            //unitOfWork
+            builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+
+            //services
+            builder.Services.AddScoped<IUnitService, UnitService>();
 
             var app = builder.Build();
 

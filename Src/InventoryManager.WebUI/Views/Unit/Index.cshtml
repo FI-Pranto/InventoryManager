@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Unit>
+<h1>List of Units</h1>
+
+<a asp-controller="Unit" asp-action="Create" >Create</a>
+
+<table>
+	<thead>
+		<tr>
+			<th>No.</th>
+			<th>Name</th>
+			<th>Description</th>
+			<th>Options</th>
+		</tr>
+	</thead>
+	<tbody>
+		@{
+			var count=0;
+		}
+		@foreach(var item in Model)
+		{
+			count = count + 1;
+			<tr>
+				<td>@count</td>
+				<td>@item.Name</td>
+				<td>@item.Description</td>
+				<td>
+				  <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+				  <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
