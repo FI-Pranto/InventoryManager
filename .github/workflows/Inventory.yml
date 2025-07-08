@@ -1,9 +1,11 @@
 name: SonarCloud Analysis
+
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+
 jobs:
   sonarcloud:
     name: SonarCloud
@@ -16,26 +18,44 @@ jobs:
         fetch-depth: 0  # Shallow clones should be disabled for better analysis
     
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4  # Updated to v4
       with:
-        dotnet-version: '8.0.x'  # Adjust to your .NET version
+        dotnet-version: '8.0.x'
     
     - name: Cache SonarCloud packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4  # Updated to v4
       with:
-        path: ~\sonar\cache
+        path: ~/.sonar/cache  # Fixed path for Linux
         key: ${{ runner.os }}-sonar
         restore-keys: ${{ runner.os }}-sonar
+    
+    - name: Cache NuGet packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: ${{ runner.os }}-nuget
     
     - name: Install SonarCloud scanner
       run: |
         dotnet tool install --global dotnet-sonarscanner
     
+    - name: Restore dependencies
+      run: dotnet restore Src/InventoryManager.sln
+    
     - name: Build and analyze
       env:
-        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use default GITHUB_TOKEN
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    
       run: |
-        dotnet-sonarscanner begin /k:"InventoryManager" /o:"fi-pranto" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-        dotnet build Src/InventoryManager.sln --configuration Release
+        dotnet-sonarscanner begin \
+          /k:"InventoryManager" \
+          /o:"fi-pranto" \
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+          /d:sonar.host.url="https://sonarcloud.io" \
+          /d:sonar.scanner.scanAll=false \
+          /d:sonar.projectBaseDir="${{ github.workspace }}"
+        
+        dotnet build Src/InventoryManager.sln --configuration Release --no-restore
+        
         dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
