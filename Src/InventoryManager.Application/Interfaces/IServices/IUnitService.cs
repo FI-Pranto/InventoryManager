@@ -14,7 +14,7 @@ namespace InventoryManager.Application.Interfaces.IServices
 
         void RemoveUnit(Unit unit);
 
-        Unit? GetUnitById(int id,string? includeProp=null);
+        Unit? GetUnitById(int? id,string? includeProp=null);
 
         IEnumerable<Unit> GetAllUnits(string? includeProp=null);
     }

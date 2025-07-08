@@ -26,7 +26,7 @@ namespace InventoryManager.Application.Services
             return _unitRepository.GetAll(includeProp: includeProp);
         }
 
-        public Unit? GetUnitById(int id, string? includeProp = null)
+        public Unit? GetUnitById(int? id, string? includeProp = null)
         {
             return _unitRepository.Get(u => u.Id == id,includeProp);
         }
