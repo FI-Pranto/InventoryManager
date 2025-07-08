@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\IRepositories\Common\" />
-    <Folder Include="Interfaces\IServices\" />
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\InventoryManager.Domain\InventoryManager.Domain.csproj" />
   </ItemGroup>
 
 </Project>
