@@ -47,7 +47,8 @@ namespace InventoryManager.Infrastructure.Repositories.Common
 
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProp = null, int page = 1, int pageSize = 1)
+        public IEnumerable<T> GetAll<TKey>(Expression<Func<T, bool>>? filter = null, string? includeProp = null, int page = 1, 
+            int pageSize = 1, Expression<Func<T, TKey>>? orderBy = null, bool descending = false)
         {
             IQueryable<T> query = _dbSet;
 
@@ -67,6 +68,11 @@ namespace InventoryManager.Infrastructure.Repositories.Common
                 }
 
             }
+            if (orderBy != null)
+            {
+                query = descending ? query.OrderByDescending(orderBy) : query.OrderBy(orderBy);
+            }
+
             query = query.Skip((page - 1) * pageSize).Take(pageSize);
             return query.ToList();
         }

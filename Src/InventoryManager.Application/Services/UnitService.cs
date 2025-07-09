@@ -21,16 +21,16 @@ namespace InventoryManager.Application.Services
             _unitOfWork.Commit();
         }
 
-        public IEnumerable<Unit> GetAllUnits(string? searchTerm,string? includeProp = null, int page = 1,int pageSize=1)
+        public IEnumerable<Unit> GetAllUnits(string? searchTerm,string? includeProp = null, int page = 1,int pageSize=1, bool descending = false)
         {
             if(searchTerm == null)
             {
-                return _unitRepository.GetAll(null,includeProp: includeProp,page,pageSize:1);
+                return _unitRepository.GetAll(null,includeProp: includeProp,page,pageSize:pageSize,u=>u.Name,descending);
             }
 
             searchTerm = searchTerm.ToLower();
 
-            return _unitRepository.GetAll(u=>u.Name.ToLower().Contains(searchTerm),includeProp: includeProp,page,pageSize:pageSize);
+            return _unitRepository.GetAll(u=>u.Name.ToLower().Contains(searchTerm),includeProp: includeProp,page,pageSize:pageSize, u => u.Name, descending);
         }
 
        public int TotalPages(string? searchTerm,int pageSize)

@@ -16,7 +16,7 @@ namespace InventoryManager.Application.Interfaces.IServices
 
         Unit? GetUnitById(int? id,string? includeProp=null);
 
-        IEnumerable<Unit> GetAllUnits(string? searchTerm,string? includeProp=null,int page=1, int pageSize = 1);
+        IEnumerable<Unit> GetAllUnits(string? searchTerm,string? includeProp=null,int page=1, int pageSize = 1, bool descending = false);
 
         int TotalPages(string? searchTerm, int pageSize);
 
