@@ -11,7 +11,7 @@ namespace InventoryManager.Application.Interfaces.IRepositories.Common
     {
         T ? Get(Expression<Func<T, bool>> filter,string? includeProp=null);
 
-        IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProp = null);
+        IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProp = null, int page = 1, int pageSize = 1);
 
         void Add(T entity);
 

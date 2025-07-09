@@ -33,6 +33,7 @@ namespace InventoryManager.Infrastructure.Repositories.Common
                 query = query.Where(filter);
             }
 
+
             if (includeProp != null){
 
                 foreach(var prop in includeProp.Split(','))
@@ -46,7 +47,7 @@ namespace InventoryManager.Infrastructure.Repositories.Common
 
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProp = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProp = null, int page = 1, int pageSize = 1)
         {
             IQueryable<T> query = _dbSet;
 
@@ -54,6 +55,8 @@ namespace InventoryManager.Infrastructure.Repositories.Common
             {
                 query = query.Where(filter);
             }
+
+
 
             if (includeProp != null)
             {
@@ -64,6 +67,7 @@ namespace InventoryManager.Infrastructure.Repositories.Common
                 }
 
             }
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
             return query.ToList();
         }
 

@@ -23,5 +23,16 @@ namespace InventoryManager.Infrastructure.Repositories
         {
             _db.Units.Update(entity);
         }
+        public int Count(string? searchTerm=null)
+        {
+            IQueryable<Unit> query = _db.Units;
+            if(searchTerm != null)
+            {
+                query=query.Where(u=>u.Name.ToLower().Contains(searchTerm.ToLower()));
+            }
+            return query.Count();
+            
+
+        }
     }
 }

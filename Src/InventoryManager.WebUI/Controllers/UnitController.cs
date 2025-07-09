@@ -7,14 +7,16 @@ namespace InventoryManager.WebUI.Controllers
     public class UnitController : Controller
     {
         private readonly IUnitService _unitService;
+        private const int pageSize = 1;
 
         public UnitController(IUnitService unitService)
         {
             _unitService = unitService;
         }
-        public IActionResult Index()
+        public IActionResult Index(string? searchTerm,int page=1)
         {
-            var units=_unitService.GetAllUnits();
+            AssignToViewBag(searchTerm, page);
+            var units=_unitService.GetAllUnits(searchTerm,page:page,pageSize:pageSize);
 
             return View(units);
         }
@@ -86,6 +88,14 @@ namespace InventoryManager.WebUI.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(unit);
+        }
+        public void AssignToViewBag(string? searchTerm, int page)
+        {
+            ViewBag.SearchTerm = searchTerm;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPage = _unitService.TotalPages(searchTerm, pageSize: pageSize);
+            (ViewBag.StartPage, ViewBag.EndPage) = _unitService.GetStartAndEnd(searchTerm, page,pageSize);
+
         }
     }
 }
