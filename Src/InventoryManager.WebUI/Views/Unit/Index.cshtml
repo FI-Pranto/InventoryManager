@@ -1,15 +1,21 @@
 ﻿@model IEnumerable<Unit>
 <h1>List of Units</h1>
 
+<form method="get" class="form-check-input">
+	<input type="text" name="searchTerm" value="@ViewBag.SearchTerm" placeholder="Search by name..." />
+	<button type="submit">Search</button>
+</form>
+<br />
+<br />
 <a asp-controller="Unit" asp-action="Create" >Create</a>
 
 <table>
 	<thead>
 		<tr>
-			<th>No.</th>
-			<th>Name</th>
-			<th>Description</th>
-			<th>Options</th>
+			<th width="20%">No.</th>
+			<th width="30%"><a asp-action="Index" asp-route-searchTerm="@ViewBag.SearchTerm" asp-route-page="@ViewBag.CurrentPage" asp-route-desc="@(!ViewBag.Desc)">Name@(ViewBag.Desc ? "↓" : "↑")</a></th>
+			<th width="30%">Description</th>
+			<th width="10%">Options</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -31,3 +37,26 @@
 		}
 	</tbody>
 </table>
+
+<nav>
+	<ul class="pagination">
+		@if (ViewBag.CurrentPage > 1)
+		{
+			<li class="page-item" >
+				<a class="page-link" asp-action="Index" asp-route-searchTerm="@ViewBag.SearchTerm" asp-route-page="@(ViewBag.CurrentPage - 1)" asp-route-desc="@ViewBag.Desc">-prev-</a>
+			</li>
+		}
+		@for(int i = ViewBag.StartPage; i <= ViewBag.EndPage; i++)
+		{
+			<li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+				<a class="page-link" asp-action="Index" asp-route-searchTerm="@ViewBag.SearchTerm" asp-route-page="@i" asp-route-desc="@ViewBag.Desc">@i</a>
+			</li>
+		}
+		@if (ViewBag.CurrentPage < ViewBag.TotalPage)
+		{
+			<li class="page-item">
+				<a class="page-link" asp-action="Index" asp-route-searchTerm="@ViewBag.SearchTerm" asp-route-page="@(ViewBag.CurrentPage + 1)" asp-route-desc="@ViewBag.Desc">-next-</a>
+			</li>
+		}
+	</ul>
+</nav>

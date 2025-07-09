@@ -21,9 +21,36 @@ namespace InventoryManager.Application.Services
             _unitOfWork.Commit();
         }
 
-        public IEnumerable<Unit> GetAllUnits(string? includeProp = null)
+        public IEnumerable<Unit> GetAllUnits(string? searchTerm,string? includeProp = null, int page = 1,int pageSize=1, bool descending = false)
         {
-            return _unitRepository.GetAll(includeProp: includeProp);
+            if(searchTerm == null)
+            {
+                return _unitRepository.GetAll(null,includeProp: includeProp,page,pageSize:pageSize,u=>u.Name,descending);
+            }
+
+            searchTerm = searchTerm.ToLower();
+
+            return _unitRepository.GetAll(u=>u.Name.ToLower().Contains(searchTerm),includeProp: includeProp,page,pageSize:pageSize, u => u.Name, descending);
+        }
+
+       public int TotalPages(string? searchTerm,int pageSize)
+        {
+            int totalItems = _unitRepository.Count(searchTerm);
+            return (int)Math.Ceiling(totalItems / (double)pageSize);
+        }
+        public (int startPage, int endPage) GetStartAndEnd(string? searchTerm,int page=1,int pageSize=1)
+        {
+            int totalPages = TotalPages(searchTerm,pageSize: pageSize);
+
+
+            int startPage = Math.Max(1, page - 1);
+            int endPage = Math.Min(totalPages, startPage + 2);
+
+            if (endPage - startPage < 2)
+            {
+                startPage = Math.Max(1, endPage - 2);
+            }
+            return (startPage, endPage);
         }
 
         public Unit? GetUnitById(int? id, string? includeProp = null)

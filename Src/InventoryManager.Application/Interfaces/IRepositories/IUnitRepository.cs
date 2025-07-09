@@ -11,5 +11,6 @@ namespace InventoryManager.Application.Interfaces.IRepositories
     public interface IUnitRepository : IRepository<Unit>
     {
         void Update(Unit entity);
+        int Count(string? searchTerm=null);
     }
 }
