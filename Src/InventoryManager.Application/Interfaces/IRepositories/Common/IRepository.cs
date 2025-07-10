@@ -12,7 +12,7 @@ namespace InventoryManager.Application.Interfaces.IRepositories.Common
         T ? Get(Expression<Func<T, bool>> filter,string? includeProp=null);
 
         IEnumerable<T> GetAll<TKey>(Expression<Func<T, bool>>? filter = null, string? includeProp = null, int page = 1,
-            int pageSize = 1, Expression<Func<T, TKey>>? orderBy = null, bool descending = false);
+            int pageSize = 1,bool pagination=false, Expression<Func<T, TKey>>? orderBy = null, bool descending = false);
 
         void Add(T entity);
 

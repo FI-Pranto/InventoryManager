@@ -17,5 +17,7 @@ namespace InventoryManager.Domain.Entities
         [Required]
         [StringLength(200, ErrorMessage = "Description cannot be longer than 200 characters.")]
         public required string Description { get; set; }
+
+        public List<Product> Products { get; set; } = new List<Product>();
     }
 }

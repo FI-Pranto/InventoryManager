@@ -12,11 +12,13 @@ namespace InventoryManager.Domain.Entities
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(50, ErrorMessage = "Name cannot be longer than 50 characters.")]
         public required string Name { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(200, ErrorMessage = "Description cannot be longer than 200 characters.")]
         public required string Description { get; set; }
+
+        public List<Product> Products { get; set; } = new List<Product>();
     }
 }
