@@ -1,21 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using InventoryManager.Domain.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace InventoryManager.WebUI.Models
 {
     public class ProductVM
     {
-        public int Id { get; set; }
+        public Product Product { get; set; }
 
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public IFormFile? ImageUri { get; set; }
 
-        public int StockQuantity { get; set; } = 0;
-        public double Price { get; set; }
-
-        public IFormFile ImageUri { get; set; }
-
-        public List<SelectListItem> Categories { get; set; }
-
-        public List<SelectListItem> Units { get; set; }
     }
 }

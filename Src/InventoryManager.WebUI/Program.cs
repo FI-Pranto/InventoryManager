@@ -24,13 +24,15 @@ namespace InventoryManager.WebUI
             //repositories
             builder.Services.AddScoped<IUnitRepository, UnitRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
             //unitOfWork
             builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
-            builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             //services
             builder.Services.AddScoped<IUnitService, UnitService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
 
             var app = builder.Build();
 

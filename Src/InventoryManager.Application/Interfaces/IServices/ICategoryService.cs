@@ -16,7 +16,7 @@ namespace InventoryManager.Application.Interfaces.IServices
 
         Category? GetCategoryById(int? id,string? includeProp=null);
 
-        IEnumerable<Category> GetAllCategories(string? searchTerm,string? includeProp=null,int page=1, int pageSize = 1, bool descending = false);
+        IEnumerable<Category> GetAllCategories(string? searchTerm,string? includeProp=null,int page=1, int pageSize = 1, bool pagination = false, bool descending = false);
 
         int TotalPages(string? searchTerm, int pageSize);
 

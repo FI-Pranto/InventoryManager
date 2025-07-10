@@ -2,6 +2,9 @@
 using InventoryManager.Application.Interfaces.IRepositories.Common;
 using InventoryManager.Application.Interfaces.IServices;
 using InventoryManager.Domain.Entities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace InventoryManager.Application.Services
 {
@@ -9,11 +12,16 @@ namespace InventoryManager.Application.Services
     {
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IUnitRepository _unitRepository;
+        
 
-        public ProductService(IProductRepository productRepository,IUnitOfWork unitOfWork)
+        public ProductService(IProductRepository productRepository,IUnitOfWork unitOfWork,ICategoryRepository categoryRepository,IUnitRepository unitRepository)
         {
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
+            _categoryRepository = categoryRepository;
+            _unitRepository = unitRepository;
         }
         public void AddProduct(Product product)
         {
@@ -21,16 +29,16 @@ namespace InventoryManager.Application.Services
             _unitOfWork.Commit();
         }
 
-        public IEnumerable<Product> GetAllProducts(string? searchTerm,string? includeProp = null, int page = 1,int pageSize=1, bool descending = false)
+        public IEnumerable<Product> GetAllProducts(string? searchTerm,string? includeProp = null, int page = 1,int pageSize=1, bool pagination = false, bool descending = false)
         {
             if(searchTerm == null)
             {
-                return _productRepository.GetAll(null,includeProp: includeProp,page,pageSize:pageSize,u=>u.Name,descending);
+                return _productRepository.GetAll(null,includeProp: includeProp,page,pageSize:pageSize,pagination: pagination, u=>u.Name,descending);
             }
 
             searchTerm = searchTerm.ToLower();
 
-            return _productRepository.GetAll(u=>u.Name.ToLower().Contains(searchTerm),includeProp: includeProp,page,pageSize:pageSize, u => u.Name, descending);
+            return _productRepository.GetAll(u=>u.Name.ToLower().Contains(searchTerm),includeProp: includeProp,page,pageSize:pageSize,pagination :pagination, u => u.Name, descending);
         }
 
        public int TotalPages(string? searchTerm,int pageSize)
@@ -69,5 +77,53 @@ namespace InventoryManager.Application.Services
             _productRepository.Update(product);
             _unitOfWork.Commit();
         }
+
+        public (IEnumerable<SelectListItem> categoryList, IEnumerable<SelectListItem> unitList) GetCategoryAndUnit()
+        {
+            var categoryList = _categoryRepository.GetAll(orderBy: u => u.Name).Select(u => new SelectListItem
+            {
+                Text = u.Name,
+                Value=u.Id.ToString()
+            });
+            var unitList = _unitRepository.GetAll(orderBy: u => u.Name).Select(u => new SelectListItem
+            {
+                Text = u.Name,
+                Value = u.Id.ToString()
+            });
+
+            return (categoryList, unitList);
+        }
+
+        public string ImagePath(IFormFile? ImageUri, string myWebRootPath)
+        {
+            if (ImageUri == null) return null;
+            var newFileName = Guid.NewGuid().ToString() + Path.GetExtension(ImageUri.FileName);
+
+            var uploadFolder = Path.Combine(myWebRootPath, "Uploads");
+            if (!Directory.Exists(uploadFolder))
+            {
+                Directory.CreateDirectory(uploadFolder);
+            }
+
+            var newPath = Path.Combine(uploadFolder, newFileName);
+
+            using (var stream = new FileStream(newPath, FileMode.Create))
+            {
+                ImageUri.CopyTo(stream);
+            }
+
+            return Path.Combine("Uploads", newFileName);
+        }
+
+        public void DeleteImage(string ImagePath,string myWebRootPath)
+        {
+            var oldPath=Path.Combine(myWebRootPath,ImagePath);
+
+            if (System.IO.File.Exists(oldPath))
+            {
+                System.IO.File.Delete(oldPath);
+            }
+        }
+        
     }
 }

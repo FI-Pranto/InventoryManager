@@ -7,6 +7,7 @@ namespace InventoryManager.WebUI.Controllers
     public class UnitController : Controller
     {
         private readonly IUnitService _unitService;
+        private const bool pagination = true;
         private const int pageSize = 1;
 
         public UnitController(IUnitService unitService)
@@ -16,7 +17,7 @@ namespace InventoryManager.WebUI.Controllers
         public IActionResult Index(string? searchTerm,int page=1,bool desc=false)
         {
             AssignToViewBag(searchTerm, page,desc);
-            var units=_unitService.GetAllUnits(searchTerm,page:page,pageSize:pageSize,descending:desc);
+            var units=_unitService.GetAllUnits(searchTerm,page:page,pageSize:pageSize, pagination: pagination,descending:desc);
 
             return View(units);
         }

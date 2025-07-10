@@ -8,6 +8,7 @@ namespace InventoryManager.WebUI.Controllers
     {
         private readonly ICategoryService _categoryService;
         private const int pageSize = 1;
+        private const bool pagination = true;
 
         public CategoryController(ICategoryService categoryService)
         {
@@ -16,7 +17,7 @@ namespace InventoryManager.WebUI.Controllers
         public IActionResult Index(string? searchTerm,int page=1,bool desc=false)
         {
             AssignToViewBag(searchTerm, page,desc);
-            var categories=_categoryService.GetAllCategories(searchTerm,page:page,pageSize:pageSize,descending:desc);
+            var categories=_categoryService.GetAllCategories(searchTerm,page:page,pageSize:pageSize,pagination:pagination,descending:desc);
 
             return View(categories);
         }
