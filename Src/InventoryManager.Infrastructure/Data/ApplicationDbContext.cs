@@ -17,6 +17,7 @@ namespace InventoryManager.Infrastructure.Data
 
         public DbSet<Unit> Units { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,7 +26,11 @@ namespace InventoryManager.Infrastructure.Data
                 
                 new Unit { Id=1, Name = "Kilogram", Description = "Unit of mass equal to 1000 grams." }
                 );
+
+            modelBuilder.Entity<Product>().Property(p => p.Price).HasPrecision(18, 4);
         }
+
+        
 
 
     }
