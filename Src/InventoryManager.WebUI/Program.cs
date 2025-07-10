@@ -23,9 +23,11 @@ namespace InventoryManager.WebUI
 
             //repositories
             builder.Services.AddScoped<IUnitRepository, UnitRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             //unitOfWork
             builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             //services
             builder.Services.AddScoped<IUnitService, UnitService>();
