@@ -49,20 +49,7 @@ namespace InventoryManager.WebUI.Controllers
             return View(productVM);
         }
 
-        Product GetProductFromVM(ProductVM productVM)
-        {
-            var imagePath = _productService.ImagePath(productVM.ImageUri, _env.WebRootPath);
-            return new Product
-            {
-                
-                Name = productVM.Product.Name,
-                Description= productVM.Product.Description,
-                Price = productVM.Product.Price,
-                CategoryId=productVM.Product.CategoryId,
-                UnitId=productVM.Product.UnitId,
-                ImagePath= imagePath,
-            };
-        }
+
 
         [HttpGet]
         public IActionResult Edit(int? id)
@@ -76,13 +63,7 @@ namespace InventoryManager.WebUI.Controllers
             (ViewBag.CategoryList, ViewBag.UnitList) = _productService.GetCategoryAndUnit();
             return View(SetVMFromProduct(product));
         }
-        ProductVM SetVMFromProduct(Product product)
-        {
-            return new ProductVM
-            {
-                Product = product
-            };
-        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -124,6 +105,10 @@ namespace InventoryManager.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (product.ImagePath != null)
+                {
+                    _productService.DeleteImage(product.ImagePath, _env.WebRootPath);
+                }
                 _productService.RemoveProduct(product);
 
                 return RedirectToAction(nameof(Index));
@@ -135,7 +120,7 @@ namespace InventoryManager.WebUI.Controllers
         [HttpGet]
         public IActionResult Details(int? id)
         {
-            var product = _productService.GetProductById(id);
+            var product = _productService.GetProductById(id,"Category,Unit");
 
             if (product == null)
             {
@@ -154,6 +139,27 @@ namespace InventoryManager.WebUI.Controllers
             ViewBag.TotalPage = _productService.TotalPages(searchTerm, pageSize: pageSize);
             (ViewBag.StartPage, ViewBag.EndPage) = _productService.GetStartAndEnd(searchTerm, page,pageSize);
 
+        }
+        Product GetProductFromVM(ProductVM productVM)
+        {
+            var imagePath = _productService.ImagePath(productVM.ImageUri, _env.WebRootPath);
+            return new Product
+            {
+
+                Name = productVM.Product.Name,
+                Description = productVM.Product.Description,
+                Price = productVM.Product.Price,
+                CategoryId = productVM.Product.CategoryId,
+                UnitId = productVM.Product.UnitId,
+                ImagePath = imagePath,
+            };
+        }
+        ProductVM SetVMFromProduct(Product product)
+        {
+            return new ProductVM
+            {
+                Product = product
+            };
         }
     }
 }

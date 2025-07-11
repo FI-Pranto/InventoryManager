@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Product>
 
-<h1 class="mb-4 text-success fw-bold">List of Units</h1>
+<h1 class="mb-4 text-success fw-bold">List of Products</h1>
 
 <form method="get" class="row g-2 mb-4">
     <div class="col-sm-8 col-md-6 col-lg-4">
@@ -18,7 +18,7 @@
         <thead class="table-success">
             <tr>
                 <th width="20%">No.</th>
-                <th width="30%">
+                <th width="20%">
                     <a class="text-decoration-none text-dark fw-bold"
                        asp-action="Index"
                        asp-route-searchTerm="@ViewBag.SearchTerm"
@@ -27,10 +27,10 @@
                         Name @(ViewBag.Desc ? "↓" : "↑")
                     </a>
                 </th>
-                <th width="30%">Price</th>
+                <th width="20%">Price</th>
                 <th width="20%">Stock Quantity</th>
-                <th width="30%">Picture</th>
-                <th width="30%">Options</th>
+                <th width="20%">Picture</th>
+                <th width="20%">Options</th>
             </tr>
         </thead>
         <tbody>
@@ -49,9 +49,10 @@
                         <img src="@(string.IsNullOrEmpty(item.ImagePath) ? "https://via.placeholder.com/200x200?text=No+Image" : item.ImagePath)"
                              width="30" height="30" class="img-thumbnail" />
                     </td>
-
+                    
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-1">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-light">Details</a>
                         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
                     </td>
                 </tr>
