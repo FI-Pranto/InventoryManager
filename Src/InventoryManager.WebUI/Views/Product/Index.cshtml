@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Product>
 
-<h1 class="mb-4 text-success fw-bold">List of Units</h1>
+<h1 class="mb-4 text-success fw-bold">List of Products</h1>
 
 <form method="get" class="row g-2 mb-4">
     <div class="col-sm-8 col-md-6 col-lg-4">
@@ -11,14 +11,14 @@
     </div>
 </form>
 
-<a asp-controller="Product" asp-action="Create" class="btn btn-outline-success mb-3">+ Create New Unit</a>
+<a asp-controller="Product" asp-action="Create" class="btn btn-outline-success mb-3">+ Create New Product</a>
 
 <div class="table-responsive">
     <table class="table table-striped table-bordered align-middle">
-        <thead class="table-success">
+        <thead class="table-success text-center">
             <tr>
-                <th width="20%">No.</th>
-                <th width="30%">
+                <th>No.</th>
+                <th>
                     <a class="text-decoration-none text-dark fw-bold"
                        asp-action="Index"
                        asp-route-searchTerm="@ViewBag.SearchTerm"
@@ -27,13 +27,13 @@
                         Name @(ViewBag.Desc ? "↓" : "↑")
                     </a>
                 </th>
-                <th width="30%">Price</th>
-                <th width="20%">Stock Quantity</th>
-                <th width="30%">Picture</th>
-                <th width="30%">Options</th>
+                <th>Price</th>
+                <th>Stock Quantity</th>
+                <th>Picture</th>
+                <th>Options</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="text-center">
             @{
                 var count = 0;
             }
@@ -43,25 +43,27 @@
                 <tr>
                     <td>@count</td>
                     <td>@item.Name</td>
-                    <td>@item.Price</td>
+                    <td>@item.Price.ToString("C")</td>
                     <td>@item.StockQuantity</td>
                     <td>
-                        <img src="@(string.IsNullOrEmpty(item.ImagePath) ? "https://via.placeholder.com/200x200?text=No+Image" : item.ImagePath)"
-                             width="30" height="30" class="img-thumbnail" />
-                    </td>
-
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-1">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
-                    </td>
-                </tr>
-            }
+                        <img src="@(string.IsNullOrEmpty(item.ImagePath)
+                                                         ? "https://via.placeholder.com/60x60?text=No+Image"
+                                                         : Url.Content("~/" + item.ImagePath.Replace("\\", "/")))"
+                         width="60" height="60" class="img-thumbnail border" />
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-1">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white me-1">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+                        }
         </tbody>
     </table>
 </div>
 
 <!-- Pagination -->
-<nav aria-label="Unit pagination">
+<nav aria-label="Product pagination">
     <ul class="pagination justify-content-center">
         @if (ViewBag.CurrentPage > 1)
         {
@@ -73,7 +75,7 @@
         @for (int i = ViewBag.StartPage; i <= ViewBag.EndPage; i++)
         {
             <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
-                <a class="page-link @(ViewBag.CurrentPage == i ? "bg-success border-success text-white" : "")"
+                <a class="page-link @(ViewBag.CurrentPage == i ? "bg-success border-success text-white" : "text-success")"
                    asp-action="Index"
                    asp-route-searchTerm="@ViewBag.SearchTerm"
                    asp-route-page="@i"
