@@ -26,6 +26,7 @@ namespace InventoryManager.WebUI
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
 
             //unitOfWork
             builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
@@ -35,6 +36,7 @@ namespace InventoryManager.WebUI
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
+            builder.Services.AddScoped<ISupplierService, SupplierService>();
 
             var app = builder.Build();
 
