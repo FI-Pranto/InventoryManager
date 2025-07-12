@@ -1,5 +1,4 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 
 namespace InventoryManager.Domain.Entities
@@ -19,6 +18,8 @@ namespace InventoryManager.Domain.Entities
         [Required]
         [EmailAddress]
         public required string Email { get; set; }
+
+        public List<PurchaseItem> PurchaseItems { get; set; } = new List<PurchaseItem>();
 
 
     }
