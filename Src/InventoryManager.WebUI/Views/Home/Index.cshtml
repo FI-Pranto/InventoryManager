@@ -1,8 +1,392 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section Styles {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-content {
+            z-index: 10;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #00f5ff, #00d4aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-features {
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 1rem;
+            background: linear-gradient(45deg, #00d4aa, #00f5ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #00d4aa, #00f5ff);
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 8px 25px rgba(0, 212, 170, 0.4);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+            .cta-button:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 12px 35px rgba(0, 212, 170, 0.5);
+                color: white;
+            }
+
+        /* 3D Animation Container */
+        .animation-container {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .floating-box {
+            position: absolute;
+            background: linear-gradient(45deg, rgba(0, 212, 170, 0.1), rgba(0, 245, 255, 0.1));
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 212, 170, 0.2);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .box-1 {
+            width: 120px;
+            height: 120px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .box-2 {
+            width: 80px;
+            height: 80px;
+            top: 60%;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .box-3 {
+            width: 100px;
+            height: 100px;
+            top: 30%;
+            right: 15%;
+            animation-delay: 4s;
+        }
+
+        .box-4 {
+            width: 60px;
+            height: 60px;
+            top: 70%;
+            right: 25%;
+            animation-delay: 1s;
+        }
+
+        .central-sphere {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #00d4aa, #00f5ff, #4ecdc4);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotate3d 8s linear infinite, pulse 3s ease-in-out infinite alternate;
+            box-shadow: 0 0 60px rgba(0, 212, 170, 0.5);
+        }
+
+        .orbit-ring {
+            position: absolute;
+            border: 2px solid rgba(0, 245, 255, 0.4);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotate 15s linear infinite reverse;
+        }
+
+        .ring-1 {
+            width: 300px;
+            height: 300px;
+        }
+
+        .ring-2 {
+            width: 400px;
+            height: 400px;
+            animation-duration: 20s;
+        }
+
+        .orbit-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(45deg, #00f5ff, #00d4aa);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 245, 255, 0.6);
+        }
+
+        .dot-1 {
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .dot-2 {
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .dot-3 {
+            top: 50%;
+            right: -6px;
+            transform: translateY(-50%);
+        }
+
+        .dot-4 {
+            top: 50%;
+            left: -6px;
+            transform: translateY(-50%);
+        }
+
+        /* Animations */
+        @@keyframes fadeInUp {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        @@keyframes float {
+            0%, 100%
+
+        {
+            transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+        }
+
+        50% {
+            transform: translateY(-20px) rotateX(10deg) rotateY(10deg);
+        }
+
+        }
+
+        @@keyframes rotate3d {
+            0%
+
+        {
+            transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+        }
+
+        100% {
+            transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg);
+        }
+
+        }
+
+        @@keyframes rotate {
+            0%
+
+        {
+            transform: translate(-50%, -50%) rotateZ(0deg);
+        }
+
+        100% {
+            transform: translate(-50%, -50%) rotateZ(360deg);
+        }
+
+        }
+
+        @@keyframes pulse {
+            0%
+
+        {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        100% {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .hero-title
+
+        {
+            font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+        }
+
+        .central-sphere {
+            width: 150px;
+            height: 150px;
+        }
+
+        .ring-1 {
+            width: 200px;
+            height: 200px;
+        }
+
+        .ring-2 {
+            width: 250px;
+            height: 250px;
+        }
+
+        }</style>
+
+}
+
+<div class="container-fluid">
+    <div class="row hero-section">
+        <!-- Left Side - Welcome Content -->
+        <div class="col-lg-6 col-md-12 p-5">
+            <div class="hero-content">
+                <h1 class="hero-title">Welcome to<br>Inventory Manager</h1>
+                <p class="hero-subtitle">
+                    Transform your business with our powerful inventory management system.
+                    Streamline operations, reduce costs, and boost productivity with intelligent automation.
+                </p>
+
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <span>Real-time inventory tracking</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <span>Advanced analytics and reporting</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <span>Supplier and customer management</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <span>Mobile-friendly interface</span>
+                    </div>
+                </div>
+
+                <a asp-controller="Product" asp-action="Index" class="cta-button">
+                    Get Started Today
+                    <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Right Side - 3D Animation -->
+        <div class="col-lg-6 col-md-12 p-0">
+            <div class="animation-container">
+                <div class="floating-elements">
+                    <div class="floating-box box-1"></div>
+                    <div class="floating-box box-2"></div>
+                    <div class="floating-box box-3"></div>
+                    <div class="floating-box box-4"></div>
+                </div>
+
+                <div class="central-sphere"></div>
+
+                <div class="orbit-ring ring-1">
+                    <div class="orbit-dot dot-1"></div>
+                    <div class="orbit-dot dot-2"></div>
+                </div>
+
+                <div class="orbit-ring ring-2">
+                    <div class="orbit-dot dot-3"></div>
+                    <div class="orbit-dot dot-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+

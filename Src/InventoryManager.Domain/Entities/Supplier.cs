@@ -19,7 +19,7 @@ namespace InventoryManager.Domain.Entities
         [EmailAddress]
         public required string Email { get; set; }
 
-        public List<PurchaseItem> PurchaseItems { get; set; } = new List<PurchaseItem>();
+        public List<Purchase> Purchases { get; set; } = new List<Purchase>();
 
 
     }
