@@ -20,6 +20,8 @@ namespace InventoryManager.Infrastructure.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<PurchaseItem> PurchaseItems { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,6 +32,9 @@ namespace InventoryManager.Infrastructure.Data
                 );
 
             modelBuilder.Entity<Product>().Property(p => p.Price).HasPrecision(18, 4);
+
+            modelBuilder.Entity<Purchase>().Property(p=>p.TotalAmount).HasPrecision(18, 4);
+            modelBuilder.Entity<PurchaseItem>().Property(p =>p.UnitPrice).HasPrecision(18, 4);
         }
 
         

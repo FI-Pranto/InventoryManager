@@ -28,20 +28,22 @@ namespace InventoryManager.Infrastructure.Repositories.Common
         {
             IQueryable<T> query = _dbSet;
 
+            if (includeProp != null)
+            {
+
+                foreach (var prop in includeProp.Split(','))
+                {
+                    query = query.Include(prop);
+                }
+
+            }
+
             if (filter!=null)
             {
                 query = query.Where(filter);
             }
 
 
-            if (includeProp != null){
-
-                foreach(var prop in includeProp.Split(','))
-                {
-                    query = query.Include(prop);
-                }
-
-            }
             return query.FirstOrDefault();
 
 
@@ -52,6 +54,16 @@ namespace InventoryManager.Infrastructure.Repositories.Common
         {
             IQueryable<T> query = _dbSet;
 
+            if (includeProp != null)
+            {
+
+                foreach (var prop in includeProp.Split(','))
+                {
+                    query = query.Include(prop.Trim());
+                }
+
+            }
+
             if (filter != null)
             {
                 query = query.Where(filter);
@@ -59,15 +71,7 @@ namespace InventoryManager.Infrastructure.Repositories.Common
 
 
 
-            if (includeProp != null)
-            {
 
-                foreach (var prop in includeProp.Split(','))
-                {
-                    query = query.Include(prop);
-                }
-
-            }
             if (orderBy != null)
             {
                 query = descending ? query.OrderByDescending(orderBy) : query.OrderBy(orderBy);

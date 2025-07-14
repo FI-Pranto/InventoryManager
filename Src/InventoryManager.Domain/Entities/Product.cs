@@ -36,5 +36,7 @@ namespace InventoryManager.Domain.Entities
         public int UnitId { get; set; }
         [ValidateNever]
         public Unit Unit { get; set; }
+
+        public List<PurchaseItem> PurchaseItems { get; set; } = new List<PurchaseItem>();
     }
 }
