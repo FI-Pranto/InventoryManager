@@ -20,6 +20,10 @@ namespace InventoryManager.Domain.Entities
         [EmailAddress]
         public required string Email { get; set; }
 
+        public List<MaterialIssue> MaterialIssues { get; set; } = new List<MaterialIssue>();
+
+
+
 
     }
 }

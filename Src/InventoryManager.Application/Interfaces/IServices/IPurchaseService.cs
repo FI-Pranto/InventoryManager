@@ -1,4 +1,5 @@
 ﻿using InventoryManager.Domain.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace InventoryManager.Application.Interfaces.IServices
 
         (int startPage, int endPage) GetStartAndEnd(string? searchTerm, int page = 1, int pageSize = 1);
 
+        (IEnumerable<SelectListItem> supplierList, IEnumerable<SelectListItem> productList) GetSupplierAndProduct();
 
 
     }

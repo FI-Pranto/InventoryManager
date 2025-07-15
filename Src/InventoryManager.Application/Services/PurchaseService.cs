@@ -2,17 +2,22 @@
 using InventoryManager.Application.Interfaces.IRepositories.Common;
 using InventoryManager.Application.Interfaces.IServices;
 using InventoryManager.Domain.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace InventoryManager.Application.Services
 {
     public class PurchaseService : IPurchaseService
     {
         private readonly IPurchaseRepository _purchaseRepository;
+        private readonly ISupplierRepository _supplierRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public PurchaseService(IPurchaseRepository purchaseRepository,IUnitOfWork unitOfWork)
+        public PurchaseService(IPurchaseRepository purchaseRepository,ISupplierRepository supplierRepository,IProductRepository productRepository,IUnitOfWork unitOfWork)
         {
             _purchaseRepository = purchaseRepository;
+            _supplierRepository = supplierRepository;
+            _productRepository = productRepository;
             _unitOfWork = unitOfWork;
         }
         public void AddPurchase(Purchase purchase)
@@ -69,6 +74,23 @@ namespace InventoryManager.Application.Services
         {
             _purchaseRepository.Update(purchase);
             _unitOfWork.Commit();
+        }
+
+
+        public (IEnumerable<SelectListItem> supplierList, IEnumerable<SelectListItem> productList) GetSupplierAndProduct()
+        {
+            var supplierList = _supplierRepository.GetAll(orderBy: u => u.Name).Select(u => new SelectListItem
+            {
+                Text = u.Name,
+                Value = u.Id.ToString()
+            });
+            var productList = _productRepository.GetAll(orderBy: u => u.Name).Select(u => new SelectListItem
+            {
+                Text = u.Name,
+                Value = u.Id.ToString()
+            });
+
+            return (supplierList, productList);
         }
     }
 }

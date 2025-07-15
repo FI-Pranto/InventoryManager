@@ -1,0 +1,102 @@
+﻿@model PurchaseVM
+
+@{
+    ViewData["Title"] = "Create Purchase";
+}
+<div class="container my-4">
+<h2>Create Purchase</h2>
+
+<form asp-action="Create" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="SupplierId">Supplier</label>
+        <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.Suppliers">
+            <option value="">-- Select Supplier --</option>
+        </select>
+        <span asp-validation-for="SupplierId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PurchaseDate">Purchase Date</label>
+        <input asp-for="PurchaseDate" class="form-control" type="date" />
+        <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+    </div>
+
+    <h4>Products</h4>
+    <span asp-validation-for="PurchaseItems" class="text-danger"></span>
+    <table class="table" id="purchaseItemsTable">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="itemsBody">
+            <tr>
+                <td>
+                    <select name="PurchaseItems[0].ProductId" class="form-control">
+                        <option value="">-- Select Product --</option>
+                        @foreach (var product in ViewBag.Products)
+                        {
+                            <option value="@product.Value">@product.Text</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <input name="PurchaseItems[0].Quantity" class="form-control" />
+                </td>
+                <td>
+                    <input name="PurchaseItems[0].UnitPrice" class="form-control"/>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger removeItem">Remove</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="button" id="addItem" class="btn btn-secondary">Add Item</button>
+
+    <br /><br />
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let rowIdx = 1;
+
+        $('#addItem').click(function () {
+            let row = `<tr>
+                <td>
+                    <select name="PurchaseItems[${rowIdx}].ProductId" class="form-control">
+                        <option value="">-- Select Product --</option>
+                        @foreach (var product in ViewBag.Products)
+                        {
+                                <option value="@product.Value">@product.Text</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <input name="PurchaseItems[${rowIdx}].Quantity" class="form-control" />
+                </td>
+                <td>
+                    <input name="PurchaseItems[${rowIdx}].UnitPrice" class="form-control" />
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger removeItem">Remove</button>
+                </td>
+            </tr>`;
+            $('#itemsBody').append(row);
+            rowIdx++;
+        });
+
+        $(document).on('click', '.removeItem', function () {
+            $(this).closest('tr').remove();
+        });
+    </script>
+}
+</div>

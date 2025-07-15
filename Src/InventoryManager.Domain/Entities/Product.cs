@@ -38,5 +38,6 @@ namespace InventoryManager.Domain.Entities
         public Unit Unit { get; set; }
 
         public List<PurchaseItem> PurchaseItems { get; set; } = new List<PurchaseItem>();
+        public List<MaterialIssueItem> MaterialIssueItems { get; set; } = new List<MaterialIssueItem>();
     }
 }
