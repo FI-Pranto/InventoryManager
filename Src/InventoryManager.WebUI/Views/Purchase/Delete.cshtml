@@ -1,0 +1,75 @@
+﻿@model PurchaseVM
+
+@{
+    ViewData["Title"] = "Delete Purchase";
+}
+
+<h2>Delete Purchase</h2>
+
+<form asp-action="Delete" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <!-- Hidden field for Purchase Id -->
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="SupplierId">Supplier</label>
+        <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.Suppliers" disabled>
+            <option value="">-- Select Supplier --</option>
+        </select>
+        <span asp-validation-for="SupplierId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PurchaseDate">Purchase Date</label>
+        <input asp-for="PurchaseDate" class="form-control" type="date" readonly />
+        <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+    </div>
+
+    <h4>Products</h4>
+    <table class="table" id="purchaseItemsTable">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+            </tr>
+        </thead>
+        <tbody id="itemsBody">
+            @for (int i = 0; i < Model.PurchaseItems.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <!-- Hidden field for PurchaseItem.Id -->
+                        <input type="hidden" name="PurchaseItems[@i].Id" value="@Model.PurchaseItems[i].Id" />
+
+                        <select name="PurchaseItems[@i].ProductId" class="form-control" disabled>
+                            <option value="">-- Select Product --</option>
+                            @foreach (var product in ViewBag.Products)
+                            {
+                                var isSelected = product.Value == Model.PurchaseItems[i].ProductId.ToString();
+                                <option value="@product.Value" selected="@(isSelected ? "selected" : null)">
+                                    @product.Text
+                                </option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <input name="PurchaseItems[@i].Quantity" value="@Model.PurchaseItems[i].Quantity" class="form-control" readonly />
+                    </td>
+                    <td>
+                        <input name="PurchaseItems[@i].UnitPrice" value="@Model.PurchaseItems[i].UnitPrice" class="form-control" readonly />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
